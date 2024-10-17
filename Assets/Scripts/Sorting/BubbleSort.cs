@@ -43,19 +43,14 @@ public class BubbleSort : MonoBehaviour
             // Generate random values for bar height
             array[i] = Random.Range(1, 100);
 
-            // Instantiate bar prefab
-            bars[i] = Instantiate(barPrefab);
 
+            bars[i] = Instantiate(barPrefab);
             // Calculate bar height
             float barHeight = (array[i] / 100f) * maxHeight;
 
             // Calculate x position (with spacing)
             float xPos = -cameraWidth / 2f + i * barWidth + (barWidth / 2f);
-
-            // Set y position to 0 (aligned to ground since the pivot is now at the bottom)
             float yPos = 0;
-
-            // Set position with yPos fixed at 0
             bars[i].transform.position = new Vector3(xPos, yPos, 0);
 
             // Adjust the scale to change only the height

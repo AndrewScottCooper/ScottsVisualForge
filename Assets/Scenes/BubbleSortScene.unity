@@ -1152,7 +1152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   barPrefab: {fileID: 2867476472168769806, guid: 2bd85e87ac305aa449f4f66def48b5e4,
     type: 3}
-  numberOfBars: 100
+  numberOfBars: 1000
   swapSpeed: 0.01
 --- !u!1 &1148276763
 GameObject:
