@@ -58,6 +58,7 @@ public class MergeSort : MonoBehaviour
     {
         StartCoroutine(Split(bars));
     }
+
     public IEnumerator Split(List<GameObject> barList)
     {
         if (barList.Count > 1)
@@ -79,29 +80,29 @@ public class MergeSort : MonoBehaviour
     {
         int i = 0, j = 0, k = 0;
 
-        // Preserve original x-positions
-        List<Vector3> originalPositions = original.Select(bar => bar.transform.position).ToList();
+        // Store original x-positions of bars to maintain correct spacing
+        List<Vector3> originalPositions = new List<Vector3>();
+        foreach (var bar in original)
+        {
+            originalPositions.Add(bar.transform.position);
+        }
 
         // Start merging the two halves while animating the comparisons
         while (i < first.Count && j < second.Count)
         {
-            // Color the bars being compared in yellow
-            first[i].GetComponent<Renderer>().material.color = Color.yellow;
-            second[j].GetComponent<Renderer>().material.color = Color.yellow;
-
-            yield return new WaitForSeconds(0.05f); // Wait to visualize comparison
-
             // Compare the height (y scale) of the bars
             if (first[i].transform.localScale.y < second[j].transform.localScale.y)
             {
-                // Move the bar from first list to its correct position in the original list
+                // Move first[i] to its correct position
                 StartCoroutine(SwapPositions(first[i], originalPositions[k]));
+                original[k] = first[i];  // Update the reference in the list
                 i++;
             }
             else
             {
-                // Move the bar from second list to its correct position in the original list
+                // Move second[j] to its correct position
                 StartCoroutine(SwapPositions(second[j], originalPositions[k]));
+                original[k] = second[j];  // Update the reference in the list
                 j++;
             }
 
@@ -113,6 +114,7 @@ public class MergeSort : MonoBehaviour
         while (i < first.Count)
         {
             StartCoroutine(SwapPositions(first[i], originalPositions[k]));
+            original[k] = first[i];  // Update the list
             i++;
             k++;
         }
@@ -121,11 +123,12 @@ public class MergeSort : MonoBehaviour
         while (j < second.Count)
         {
             StartCoroutine(SwapPositions(second[j], originalPositions[k]));
+            original[k] = second[j];  // Update the list
             j++;
             k++;
         }
 
-        // Once the merge is done, turn all the bars in `original` green (indicating they are sorted)
+        // Turn all bars green once they are fully sorted
         for (int m = 0; m < original.Count; m++)
         {
             original[m].GetComponent<Renderer>().material.color = Color.green;
@@ -157,5 +160,7 @@ public class MergeSort : MonoBehaviour
 
         yield return null;
     }
+
+
 
 }
